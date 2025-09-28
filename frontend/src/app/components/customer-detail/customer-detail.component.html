@@ -1,0 +1,22 @@
+<div *ngIf="loading">Loading customer details...</div>
+
+<div *ngIf="!loading && customer" class="customer-detail-container">
+  <h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
+  <p><strong>Phone:</strong> {{ customer.phone }}</p>
+  <p><strong>Email:</strong> {{ customer.email || 'N/A' }}</p>
+  <p><strong>Account Type:</strong> {{ customer.account_type }}</p>
+  <p><strong>Only One Address:</strong> {{ customer.only_one_address ? 'Yes' : 'No' }}</p>
+
+  <h3>Addresses</h3>
+  <ul>
+    <li *ngFor="let addr of customer.addresses">
+      {{ addr.address_line }}, {{ addr.city }}, {{ addr.state }}, {{ addr.pincode }} ({{ addr.country }})
+      <span *ngIf="addr.is_primary">[Primary]</span>
+    </li>
+  </ul>
+
+  <div class="buttons">
+    <button (click)="editCustomer()">Edit Customer</button>
+    <button (click)="backToList()">Back to List</button>
+  </div>
+</div>

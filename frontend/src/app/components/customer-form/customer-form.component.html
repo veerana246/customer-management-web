@@ -1,0 +1,20 @@
+<form [formGroup]="customerForm" (ngSubmit)="submit()">
+  <input placeholder="First Name" formControlName="first_name">
+  <input placeholder="Last Name" formControlName="last_name">
+  <input placeholder="Phone" formControlName="phone">
+  <input placeholder="Email" formControlName="email">
+
+  <div formArrayName="addresses">
+    <div *ngFor="let addr of addresses.controls; let i = index" [formGroupName]="i">
+      <input placeholder="Address Line" formControlName="address_line">
+      <input placeholder="City" formControlName="city">
+      <input placeholder="State" formControlName="state">
+      <input placeholder="Pincode" formControlName="pincode">
+      <input placeholder="Country" formControlName="country">
+      <input type="checkbox" formControlName="is_primary"> Primary
+      <button type="button" (click)="removeAddress(i)">Remove</button>
+    </div>
+  </div>
+  <button type="button" (click)="addAddress()">Add Address</button>
+  <button type="submit">{{isEdit ? 'Update' : 'Create'}}</button>
+</form>

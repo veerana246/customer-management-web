@@ -1,0 +1,43 @@
+<!-- src/app/components/customer-list/customer-list.component.html -->
+<div class="filter-bar">
+  <input placeholder="City" #cityInput (keyup.enter)="searchByCity(cityInput.value)">
+  <input placeholder="State" #stateInput (keyup.enter)="searchByState(stateInput.value)">
+  <input placeholder="Pincode" #pinInput (keyup.enter)="searchByPincode(pinInput.value)">
+  <button (click)="clearFilters()">Clear Filters</button>
+  <a routerLink="/customers/create"><button>Create Customer</button></a>
+</div>
+
+<div class="customer-list-container">
+  <table *ngIf="customers.length > 0">
+    <thead>
+      <tr><th>Name</th><th>Phone</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of customers">
+        <td>{{c.first_name}} {{c.last_name}}</td>
+        <td>{{c.phone}}</td>
+        <td>
+          <button (click)="viewCustomer(c.id)">View</button>
+          <button (click)="editCustomer(c.id)">Edit</button>
+          <button (click)="deleteCustomer(c.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="customers.length === 0 && !loading">
+    <p>No customers to display.</p>
+  </div>
+
+  <div *ngIf="loading">
+    <p>Loading...</p>
+  </div>
+
+  <div class="load-more-area" *ngIf="!finished && !loading">
+    <button (click)="loadMore()">Load More</button>
+  </div>
+
+  <div *ngIf="finished">
+    <p>No more customers.</p>
+  </div>
+</div>
