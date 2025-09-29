@@ -5,7 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 exports.createCustomer = async (req, res, next) => {
   try {
     const { first_name, last_name, phone, email, addresses } = req.body;
-    if(!first_name || !last_name || !phone) return res.status(400).json({ message: 'Missing required fields' });
+    if(!first_name || !last_name || !phone) 
+      return res.status(400).json({ message: 'Missing required fields' });
 
     const id = uuidv4();
     const result = await db.query(
@@ -30,21 +31,49 @@ exports.createCustomer = async (req, res, next) => {
   } catch(err){ next(err); }
 };
 
-// Get Customers (with optional filters)
+// Get Customers (with optional filters, case-insensitive)
 exports.getCustomers = async (req, res, next) => {
   try {
     const { city, state, pincode, page=1, pageSize=20 } = req.query;
-    let query = `SELECT c.*, array_agg(json_build_object('id', a.id,'address_line',a.address_line,'city',a.city,'state',a.state,'pincode',a.pincode,'country',a.country,'is_primary',a.is_primary)) as addresses
-                 FROM customers c
-                 LEFT JOIN addresses a ON a.customer_id = c.id`;
-    let conditions = [], params=[];
-    if(city){ params.push(city); conditions.push(`a.city=$${params.length}`); }
-    if(state){ params.push(state); conditions.push(`a.state=$${params.length}`); }
-    if(pincode){ params.push(pincode); conditions.push(`a.pincode=$${params.length}`); }
+    
+    let query = `
+      SELECT c.*, 
+             array_agg(
+               json_build_object(
+                 'id', a.id,
+                 'address_line', a.address_line,
+                 'city', a.city,
+                 'state', a.state,
+                 'pincode', a.pincode,
+                 'country', a.country,
+                 'is_primary', a.is_primary
+               )
+             ) as addresses
+      FROM customers c
+      LEFT JOIN addresses a ON a.customer_id = c.id
+    `;
+
+    let conditions = [], params = [];
+
+    if(city){
+      params.push(`%${city}%`);
+      conditions.push(`a.city ILIKE $${params.length}`);
+    }
+    if(state){
+      params.push(`%${state}%`);
+      conditions.push(`a.state ILIKE $${params.length}`);
+    }
+    if(pincode){
+      params.push(`%${pincode}%`);
+      conditions.push(`a.pincode ILIKE $${params.length}`);
+    }
+
     if(conditions.length) query += ' WHERE ' + conditions.join(' AND ');
+
     query += ' GROUP BY c.id ORDER BY c.created_at DESC';
-    query += ` LIMIT $${params.length+1} OFFSET $${params.length+2}`;
+    
     params.push(parseInt(pageSize), (parseInt(page)-1)*parseInt(pageSize));
+    query += ` LIMIT $${params.length-1} OFFSET $${params.length}`;
 
     const result = await db.query(query, params);
     res.json(result.rows);
@@ -56,7 +85,15 @@ exports.getCustomer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(
-      `SELECT c.*, array_agg(json_build_object('id', a.id,'address_line',a.address_line,'city',a.city,'state',a.state,'pincode',a.pincode,'country',a.country,'is_primary',a.is_primary)) as addresses
+      `SELECT c.*, array_agg(json_build_object(
+         'id', a.id,
+         'address_line', a.address_line,
+         'city', a.city,
+         'state', a.state,
+         'pincode', a.pincode,
+         'country', a.country,
+         'is_primary', a.is_primary
+       )) as addresses
        FROM customers c
        LEFT JOIN addresses a ON a.customer_id = c.id
        WHERE c.id=$1 GROUP BY c.id`, [id]

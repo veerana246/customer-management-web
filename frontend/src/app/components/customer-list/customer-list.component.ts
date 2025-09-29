@@ -1,4 +1,3 @@
-// src/app/components/customer-list/customer-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
@@ -36,9 +35,7 @@ export class CustomerListComponent implements OnInit {
     const params: any = { ...this.filters, page: this.page, pageSize: this.pageSize };
     this.customerService.getCustomers(params).subscribe(
       (data: any[]) => {
-        // backend returns an array (possibly empty)
         if (!Array.isArray(data)) {
-          // defensive: if backend wrapped results, adjust here
           console.warn('Unexpected customers payload', data);
           this.loading = false;
           return;
@@ -67,7 +64,6 @@ export class CustomerListComponent implements OnInit {
   deleteCustomer(id: string) {
     if (confirm('Are you sure you want to delete this customer?')) {
       this.customerService.deleteCustomer(id).subscribe(() => {
-        // after delete, reset listing to be safe
         this.resetAndLoad();
       }, err => {
         console.error(err);
@@ -76,8 +72,26 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
-  searchByCity(city: string) { this.filters.city = city; this.resetAndLoad(); }
-  searchByState(state: string) { this.filters.state = state; this.resetAndLoad(); }
-  searchByPincode(pincode: string) { this.filters.pincode = pincode; this.resetAndLoad(); }
-  clearFilters() { this.filters = {}; this.resetAndLoad(); }
+  searchByCity(city: string) {
+  this.filters.city = city.trim().toLowerCase(); // convert to lowercase
+  this.resetAndLoad();
+}
+
+searchByState(state: string) {
+  this.filters.state = state.trim().toLowerCase();
+  this.resetAndLoad();
+}
+
+searchByPincode(pincode: string) {
+  this.filters.pincode = pincode.trim().toLowerCase();
+  this.resetAndLoad();
+}
+
+  clearFilters(cityInput?: HTMLInputElement, stateInput?: HTMLInputElement, pinInput?: HTMLInputElement) {
+    this.filters = {};
+    if (cityInput) cityInput.value = '';
+    if (stateInput) stateInput.value = '';
+    if (pinInput) pinInput.value = '';
+    this.resetAndLoad();
+  }
 }

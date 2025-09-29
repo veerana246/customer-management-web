@@ -1,68 +1,46 @@
-/* General layout */
+/* Dark form theme */
 .app-shell {
   display: flex;
   justify-content: center;
-  padding: 2rem;
-  background: #f5f6fa;
+  padding: 1.5rem;
+  background: #1b1b2f;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 .card {
-  background: #ffffff;
+  background: #27293d;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   padding: 1.5rem;
   width: 100%;
   max-width: 700px;
   display: flex;
   flex-direction: column;
-}
-
-.card-header {
-  margin-bottom: 1rem;
+  color: #fff;
 }
 
 .card-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 }
 
-/* Layout helpers */
-.vstack {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.hstack {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-/* Input styling */
+/* Inputs */
 .input {
   flex: 1;
   padding: 0.6rem 0.8rem;
-  border: 1px solid #ddd;
+  border: 1px solid #555;
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #1f1f2f;
+  color: #fff;
 }
 
 .input:focus {
-  border-color: #3f51b5;
-  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
-}
-
-/* Divider */
-.divider {
-  height: 1px;
-  background: #eee;
-  margin: 1rem 0;
+  border-color: #ff6f61;
+  box-shadow: 0 0 0 2px rgba(255, 111, 97, 0.3);
 }
 
 /* Buttons */
@@ -72,54 +50,26 @@
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background-color: #3f51b5;
+  background-color: #ff6f61;
   color: white;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: all 0.2s;
 }
 
-.btn:hover {
-  background-color: #303f9f;
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
+.btn:hover { background-color: #ff4f3a; }
 
 .btn.secondary {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
+  background-color: #555;
+  color: white;
 }
 
-.btn.secondary:hover {
-  background-color: #e0e0e0;
-}
+.btn.secondary:hover { background-color: #777; }
 
-/* Responsive address rows */
-.address-row {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+/* Address rows */
+.address-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.address-row input { flex: 1 1 48%; }
 
-.address-row input {
-  flex: 1 1 48%;
-}
-
-/* Small text */
-.small {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-/* Media Queries */
+/* Responsive */
 @media (max-width: 768px) {
-  .address-row input {
-    flex: 1 1 100%;
-  }
-
-  .hstack {
-    flex-direction: column;
-  }
+  .address-row input { flex: 1 1 100%; }
+  .hstack { flex-direction: column; }
 }
