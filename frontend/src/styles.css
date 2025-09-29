@@ -1,4 +1,169 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css — modern theme + utilities */
+:root{
+  --bg: #0f1724;            /* dark navy */
+  --surface: #0b1220;       /* card background */
+  --muted: #9aa7b2;
+  --text: #e6eef6;
+  --accent: #7cc3ff;        /* light blue */
+  --accent-2: #7df7c1;      /* mint */
+  --danger: #ff6b6b;
+  --glass: rgba(255,255,255,0.03);
+  --radius: 12px;
+  --glass-border: rgba(255,255,255,0.04);
+  --shadow: 0 6px 20px rgba(2,6,23,0.6);
+  --max-width: 1100px;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #071025 0%, #081125 60%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:2rem;
+  display:flex;
+  justify-content:center;
+}
+
+/* container */
+.app-shell{
+  width:100%;
+  max-width:var(--max-width);
+}
+
+/* header */
+.app-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.25rem;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  font-weight:700;
+  letter-spacing:0.3px;
+}
+.logo {
+  width:44px; height:44px; border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#3b82f6);
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow: 0 6px 18px rgba(124,195,255,0.12);
+  font-weight:700; color:#042235;
+}
+
+/* page layout */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 380px;
+  gap:1rem;
+  align-items:start;
+}
+
+/* responsive */
+@media (max-width: 980px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+/* card */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--radius);
+  padding:1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+}
+
+/* utility */
+.hstack{display:flex; gap:0.5rem; align-items:center}
+.vstack{display:flex; flex-direction:column; gap:0.5rem}
+
+/* inputs & buttons */
+.input, input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+  width:100%;
+  padding:0.6rem 0.75rem;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+  color:var(--text);
+  outline:none;
+  transition: box-shadow .16s ease, transform .08s ease;
+  font-size:0.95rem;
+}
+.input:focus, input:focus { box-shadow: 0 6px 18px rgba(124,195,255,0.06); transform: translateY(-1px); border-color: rgba(124,195,255,0.18); }
+
+/* buttons */
+.btn{
+  padding:0.55rem 0.9rem;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  background:linear-gradient(180deg,var(--accent),#3b82f6);
+  color:#052135;
+  box-shadow: 0 8px 20px rgba(124,195,255,0.12);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(124,195,255,0.16); }
+.btn.secondary{
+  background:transparent;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:none;
+}
+.btn.danger{ background: linear-gradient(180deg,var(--danger),#ff4040); color:#fff; }
+
+/* table */
+.table {
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:10px;
+}
+.table thead tr{
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+.table th, .table td{
+  text-align:left;
+  padding:0.9rem 0.8rem;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  color:var(--text);
+  font-size:0.95rem;
+}
+.row-actions button { margin-right:0.5rem; }
+
+/* small helpers */
+.kv { color:var(--muted); font-size:0.9rem }
+
+/* card header */
+.card-header{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;
+}
+.card-title{ font-size:1.05rem; font-weight:700; }
+
+/* empty state */
+.empty {
+  text-align:center;
+  color:var(--muted);
+  padding:1.25rem;
+}
+
+/* form address row */
+.address-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:0.6rem;
+  align-items:center;
+}
+@media (max-width:720px){ .address-row{ grid-template-columns: 1fr } }
+
+/* small label */
+.small { font-size:0.85rem; color:var(--muted); }
+
+/* subtle divider */
+.divider{ height:1px; background:var(--glass-border); margin:0.6rem 0; border-radius:2px; }

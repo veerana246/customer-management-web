@@ -1,22 +1,31 @@
-<div *ngIf="loading">Loading customer details...</div>
+<div *ngIf="loading" class="empty">Loading customer details...</div>
 
-<div *ngIf="!loading && customer" class="customer-detail-container">
-  <h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
-  <p><strong>Phone:</strong> {{ customer.phone }}</p>
-  <p><strong>Email:</strong> {{ customer.email || 'N/A' }}</p>
-  <p><strong>Account Type:</strong> {{ customer.account_type }}</p>
-  <p><strong>Only One Address:</strong> {{ customer.only_one_address ? 'Yes' : 'No' }}</p>
+<div *ngIf="!loading && customer" class="app-shell">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">{{ customer.first_name }} {{ customer.last_name }}</div>
+        <div class="small kv">{{ customer.email || 'No email' }}</div>
+      </div>
+      <div class="hstack" style="gap:0.5rem;">
+        <button class="btn" (click)="editCustomer()">Edit</button>
+        <button class="btn secondary" (click)="backToList()">Back</button>
+      </div>
+    </div>
 
-  <h3>Addresses</h3>
-  <ul>
-    <li *ngFor="let addr of customer.addresses">
-      {{ addr.address_line }}, {{ addr.city }}, {{ addr.state }}, {{ addr.pincode }} ({{ addr.country }})
-      <span *ngIf="addr.is_primary">[Primary]</span>
-    </li>
-  </ul>
+    <div class="vstack" style="gap:0.5rem; margin-top:0.5rem;">
+      <div><span class="small">Phone:</span> {{ customer.phone }}</div>
+      <div><span class="small">Account Type:</span> {{ customer.account_type }}</div>
+      <div><span class="small">Only One Address:</span> {{ customer.only_one_address ? 'Yes' : 'No' }}</div>
+    </div>
 
-  <div class="buttons">
-    <button (click)="editCustomer()">Edit Customer</button>
-    <button (click)="backToList()">Back to List</button>
+    <div class="divider"></div>
+
+    <h3 style="margin-bottom:0.5rem;">Addresses</h3>
+    <div *ngFor="let addr of customer.addresses" class="card" style="padding:0.6rem; margin-bottom:0.5rem;">
+      <div>{{ addr.address_line }}</div>
+      <div class="small kv">{{ addr.city }}, {{ addr.state }}, {{ addr.pincode }} ({{ addr.country }})</div>
+      <div *ngIf="addr.is_primary" class="small" style="color:var(--accent-2)">Primary</div>
+    </div>
   </div>
 </div>

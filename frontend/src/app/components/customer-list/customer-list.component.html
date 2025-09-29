@@ -1,43 +1,74 @@
 <!-- src/app/components/customer-list/customer-list.component.html -->
-<div class="filter-bar">
-  <input placeholder="City" #cityInput (keyup.enter)="searchByCity(cityInput.value)">
-  <input placeholder="State" #stateInput (keyup.enter)="searchByState(stateInput.value)">
-  <input placeholder="Pincode" #pinInput (keyup.enter)="searchByPincode(pinInput.value)">
-  <button (click)="clearFilters()">Clear Filters</button>
-  <a routerLink="/customers/create"><button>Create Customer</button></a>
-</div>
+<div class="app-shell">
+  <div class="app-header">
+    <div class="brand">
+      <div class="logo">CM</div>
+      <div>Customer<span style="color:var(--accent-2)">Mgmt</span></div>
+    </div>
 
-<div class="customer-list-container">
-  <table *ngIf="customers.length > 0">
-    <thead>
-      <tr><th>Name</th><th>Phone</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let c of customers">
-        <td>{{c.first_name}} {{c.last_name}}</td>
-        <td>{{c.phone}}</td>
-        <td>
-          <button (click)="viewCustomer(c.id)">View</button>
-          <button (click)="editCustomer(c.id)">Edit</button>
-          <button (click)="deleteCustomer(c.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="customers.length === 0 && !loading">
-    <p>No customers to display.</p>
+    <div class="hstack">
+      <a routerLink="/customers/create"><button class="btn">+ Create</button></a>
+    </div>
   </div>
 
-  <div *ngIf="loading">
-    <p>Loading...</p>
-  </div>
+  <div class="grid">
+    <!-- main list card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Customers</div>
+        <div class="small kv">Showing {{ totalLoaded }} customers</div>
+      </div>
 
-  <div class="load-more-area" *ngIf="!finished && !loading">
-    <button (click)="loadMore()">Load More</button>
-  </div>
+      <div class="hstack" style="gap:0.5rem; margin-bottom:0.75rem;">
+        <input class="input" placeholder="City" #cityInput (keyup.enter)="searchByCity(cityInput.value)">
+        <input class="input" placeholder="State" #stateInput (keyup.enter)="searchByState(stateInput.value)">
+        <input class="input" placeholder="Pincode" #pinInput (keyup.enter)="searchByPincode(pinInput.value)">
+        <button class="btn secondary" (click)="clearFilters()">Clear</button>
+      </div>
 
-  <div *ngIf="finished">
-    <p>No more customers.</p>
+      <table class="table" *ngIf="customers.length > 0">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of customers">
+            <td>
+              <div>{{ c.first_name }} {{ c.last_name }}</div>
+              <div class="small kv">{{ c.email || '—' }}</div>
+            </td>
+            <td>{{ c.phone }}</td>
+            <td class="row-actions">
+              <button class="btn secondary" (click)="viewCustomer(c.id)">View</button>
+              <button class="btn" (click)="editCustomer(c.id)">Edit</button>
+              <button class="btn danger" (click)="deleteCustomer(c.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="customers.length === 0 && !loading" class="empty">No customers to display.</div>
+      <div *ngIf="loading" class="empty">Loading ...</div>
+
+      <div class="hstack" style="margin-top:0.75rem;">
+        <button class="btn" *ngIf="!finished && !loading" (click)="loadMore()">Load More</button>
+        <div class="small kv" *ngIf="finished" style="margin-left:0.5rem;">No more customers.</div>
+      </div>
+    </div>
+
+    <!-- sidebar card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Quick actions</div>
+      </div>
+
+      <div class="vstack">
+        <a routerLink="/customers/create"><button class="btn">Create new customer</button></a>
+        <button class="btn secondary" (click)="clearFilters()">Clear filters</button>
+      </div>
+    </div>
   </div>
 </div>

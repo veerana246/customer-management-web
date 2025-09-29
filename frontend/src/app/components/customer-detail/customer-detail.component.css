@@ -1,18 +1,83 @@
-.customer-list, .customer-detail-container {
+.app-shell {
+  max-width: var(--max-width);
+  margin: 0 auto;
   padding: 1rem;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
 }
 
-td, th {
-  border: 1px solid #ddd;
-  padding: 8px;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
-  table, thead, tbody, th, td, tr { display: block; }
-  td { border: none; padding: 0.5rem 0; }
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.vstack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hstack {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(180deg, var(--accent), #3b82f6);
+  color: #052135;
+  box-shadow: 0 8px 20px rgba(124,195,255,0.12);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(124,195,255,0.16);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: none;
+}
+
+.divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 0.8rem 0;
+  border-radius: 2px;
+}
+
+.small {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.kv {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 1.25rem;
 }

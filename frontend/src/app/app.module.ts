@@ -10,6 +10,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { CustomerDetailComponent } from './components/customer-detail/customer-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CustomerDetailComponent } from './components/customer-detail/customer-d
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
     // Note: InfiniteScrollModule intentionally removed to avoid NG0203 errors
   ],
   providers: [],

@@ -1,20 +1,49 @@
-<form [formGroup]="customerForm" (ngSubmit)="submit()">
-  <input placeholder="First Name" formControlName="first_name">
-  <input placeholder="Last Name" formControlName="last_name">
-  <input placeholder="Phone" formControlName="phone">
-  <input placeholder="Email" formControlName="email">
-
-  <div formArrayName="addresses">
-    <div *ngFor="let addr of addresses.controls; let i = index" [formGroupName]="i">
-      <input placeholder="Address Line" formControlName="address_line">
-      <input placeholder="City" formControlName="city">
-      <input placeholder="State" formControlName="state">
-      <input placeholder="Pincode" formControlName="pincode">
-      <input placeholder="Country" formControlName="country">
-      <input type="checkbox" formControlName="is_primary"> Primary
-      <button type="button" (click)="removeAddress(i)">Remove</button>
+<div class="app-shell">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">{{ isEdit ? 'Edit Customer' : 'Create Customer' }}</div>
     </div>
+
+    <form [formGroup]="customerForm" (ngSubmit)="submit()" class="vstack">
+      <!-- Name & Contact -->
+      <div class="address-row">
+        <input class="input" placeholder="First Name" formControlName="first_name">
+        <input class="input" placeholder="Last Name" formControlName="last_name">
+      </div>
+
+      <div class="address-row" style="margin-top:0.5rem;">
+        <input class="input" placeholder="Phone" formControlName="phone">
+        <input class="input" placeholder="Email" formControlName="email">
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Addresses -->
+      <div formArrayName="addresses">
+        <div *ngFor="let addr of addresses.controls; let i = index" [formGroupName]="i" class="vstack card" style="padding:0.8rem; margin-bottom:0.6rem;">
+          <div class="address-row">
+            <input class="input" placeholder="Address Line" formControlName="address_line">
+            <input class="input" placeholder="City" formControlName="city">
+          </div>
+          <div class="address-row" style="margin-top:0.5rem;">
+            <input class="input" placeholder="State" formControlName="state">
+            <input class="input" placeholder="Pincode" formControlName="pincode">
+          </div>
+          <div class="address-row" style="margin-top:0.5rem;">
+            <input class="input" placeholder="Country" formControlName="country">
+            <div class="hstack" style="align-items:center; gap:0.5rem;">
+              <input type="checkbox" formControlName="is_primary"> 
+              <span class="small">Primary</span>
+            </div>
+          </div>
+          <button type="button" class="btn secondary" (click)="removeAddress(i)">Remove</button>
+        </div>
+      </div>
+
+      <div class="hstack" style="margin-top:0.5rem; justify-content:space-between;">
+        <button type="button" class="btn secondary" (click)="addAddress()">+ Add Address</button>
+        <button type="submit" class="btn">{{ isEdit ? 'Update' : 'Create' }}</button>
+      </div>
+    </form>
   </div>
-  <button type="button" (click)="addAddress()">Add Address</button>
-  <button type="submit">{{isEdit ? 'Update' : 'Create'}}</button>
-</form>
+</div>
